@@ -201,17 +201,19 @@ class tabuleiro(spade.Agent.Agent):
                 acoes = msg.getContent().split('|')
                 resposta = 'done'
                 msg2.setPerformative("done")
+                msg2.setContent("done")
                 for acao in acoes:
                     print 'Pedido de ir para: ', acao
                     if not tabuleiro.players[i].acao(acao): #se conseguir fazer a acao solicitada
                         resposta = 'failure'
                         msg2.setPerformative("failure")
+                        msg2.setContent("failure")
                         break
                     print 'Chegou em', tabuleiro.players[i].posicaoAtual
 
                 print "Responde acao de", msg.getSender().getName(), 'para', msg.getContent(), "com", resposta
 
-                msg2.setContent(msg.getContent())
+                #msg2.setContent(msg.getContent())
                 self.myAgent.send(msg2)
 
     class solucao(spade.Behaviour.Behaviour):

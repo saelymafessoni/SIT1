@@ -5,38 +5,27 @@ import time
 class mapa(object):
     """docstring for mapa"""
     def __init__(self, ordem):
-        lugarx = 4
-        lugary = 4
-        matriz = [[0 for j in range(ordem)] for i in range(ordem)]
+        self.lugarx = 4
+        self.lugary = 4
+        self.matriz = [[0 for j in range(ordem)] for i in range(ordem)]
         for i in range(0,ordem):
             for j in range(0, ordem):
-                matriz[i][j] = 0
+                self.matriz[i][j] = 0
         '''for i in range(0,ordem):
             for j in range(0, ordem):
                 print str(i) + " "+ str(j)'''
-    def print2(self):
-        print "batata"
+
     def proximo(self, cima, direita, baixo, esquerda):
-        print "min10"
-        '''lista = []
-        lista.apend(999)
-        lista.apend(999)
-        lista.apend(999)
-        lista.apend(999)'''
-        print "w"
-        print matriz[lugarx][lugary+1]
+        lista = [999,999,999,999]
+
         if cima==1 :
-            print "min2"
-            lista[0] = matriz[lugarx][lugary+1]
+            lista[0] = self.matriz[self.lugarx][self.lugary+1]
         if direita==1 :
-            print "min3"
-            lista[1] = matriz[lugarx+1][lugary]
+            lista[1] = self.matriz[self.lugarx+1][self.lugary]
         if baixo==1 :
-            print "min4"
-            lista[2] = matriz[lugarx+1][lugary]
+            lista[2] = self.matriz[self.lugarx+1][self.lugary]
         if esquerda==1 :
-            print "min5"
-            lista[3] = matriz[lugarx+1][lugary]
+            lista[3] = self.matriz[self.lugarx+1][self.lugary]
         aux = 0
         min = lista[0]
         if min > lista[1]:
@@ -48,7 +37,6 @@ class mapa(object):
         if min > lista[3]:
             min = lista[3]
             aux = 3
-        print "aux"
         return aux
 
 
@@ -84,8 +72,7 @@ class Resolve_Labirinto(spade.Agent.Agent):
                 self.myAgent.send(msg)
                 print "Requisicao de sucessores enviada"
             elif content == 'true':
-<<<<<<< HEAD
-                print "true"
+                print "Objetivo encontrado, enviando proposta de caminho"
                 #salva o caminho e o numero de passos dados
                 #se for a melhor resposta, manda proposta de caminho
             elif (content[0] == '[' and content[-1] == ']'):
@@ -124,16 +111,13 @@ class Resolve_Labirinto(spade.Agent.Agent):
                 msg.addReceiver(spade.AID.aid("tabuleiro@127.0.0.1",["xmpp://tabuleiro@127.0.0.1"]))
                 msg.setContent('obj')
                 self.myAgent.send(msg)
-                print "Obj enviado!2"
-=======
-                print "Objetivo encontrado, enviando proposta de caminho"
+                print "Obj enviado!"
                 #manda proposta de caminho
-            elif content[0] == '[' & content[2] == ',':
-
->>>>>>> 1036efc70bbc14abba50ac1e58cfe29082064a46
+            elif content=="failure":
+                print "Failed to perform action"
             else:
                 #toma decisao de caminhada pelo labirinto
-                print "Sucessores: ", content
+                print "else: ", content
 
 
     def _setup(self):
