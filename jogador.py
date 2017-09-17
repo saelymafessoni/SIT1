@@ -84,6 +84,7 @@ class Resolve_Labirinto(spade.Agent.Agent):
                 self.myAgent.send(msg)
                 print "Requisicao de sucessores enviada"
             elif content == 'true':
+<<<<<<< HEAD
                 print "true"
                 #salva o caminho e o numero de passos dados
                 #se for a melhor resposta, manda proposta de caminho
@@ -124,6 +125,12 @@ class Resolve_Labirinto(spade.Agent.Agent):
                 msg.setContent('obj')
                 self.myAgent.send(msg)
                 print "Obj enviado!2"
+=======
+                print "Objetivo encontrado, enviando proposta de caminho"
+                #manda proposta de caminho
+            elif content[0] == '[' & content[2] == ',':
+
+>>>>>>> 1036efc70bbc14abba50ac1e58cfe29082064a46
             else:
                 #toma decisao de caminhada pelo labirinto
                 print "Sucessores: ", content
