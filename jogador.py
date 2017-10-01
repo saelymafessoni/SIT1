@@ -1,8 +1,9 @@
 #!/usr/bin/python
 import spade
 import time
+from random import randint
 
-class mapa():
+class mapa(object):
     """docstring for mapa"""
     def __init__(self, ordem):
         self.lugarx = 4
@@ -17,6 +18,13 @@ class mapa():
                 print str(i) + " "+ str(j)'''
 
     def proximo(self, cima, direita, baixo, esquerda):
+        l = [cima, direita, baixo, esquerda]
+        aux = randint(0, 3)
+        while (l[aux] == 0):
+            aux = randint(0,3)
+        print aux
+        return aux
+        '''
         lista = [999,999,999,999]
         print "proximo(" + str(cima) + "," + str(direita) + "," + str(baixo) + "," + str(esquerda) + ")" 
         if cima==1 :
@@ -42,31 +50,8 @@ class mapa():
         if min > lista[3]:
             min = lista[3]
             aux = 3
-        print "aux: " + str(aux)
         return aux
 
-    def andar(self, direcao):
-        #sleep(1)
-        print "self.lugarx: ",
-        print self.lugarx
-        print "self.lugary: ",
-        print self.lugary
-        aux = self.matriz[self.lugarx][self.lugary] 
-        print aux
-        self.matriz[self.lugarx][self.lugary] = aux + 1
-        if direcao=="esq" :
-            self.lugarx = self.lugarx - 1
-        if direcao=="dir" :
-            self.lugarx = self.lugarx + 1
-        if direcao=="cima" :
-            self.lugary = self.lugary +1
-        if direcao=="baixo" :
-            self.lugary = self.lugary -1
-        print self.lugarx
-        print self.lugary
-        
-        self.caminho = self.caminho + direcao + "|"
-        print self.caminho
 
     def getCaminho(self):
         print "getcaminho"
@@ -133,8 +118,6 @@ class Resolve_Labirinto(spade.Agent.Agent):
                 print baixo
                 print direita
 
-                print isinstance( cima, int )
-
                 prox=0
                 prox = m.proximo(cima, direita, baixo, esquerda)
                 print prox
@@ -146,14 +129,12 @@ class Resolve_Labirinto(spade.Agent.Agent):
                 elif prox == 1:
                     msg.setContent("dir")
                 elif prox == 2:
-                    msg.setContent("esq")
-                else:
                     msg.setContent("baixo")
+                else:
+                    msg.setContent("esq")
                 self.myAgent.send(msg)
                 print "acao enviada"
-            elif (content=="esq" or content=="dir" or content=="cima" or content=="baixo") or performative=="done":
-                print "entrou"
-                m.andar(content)
+            elif content=="done":
                 msg = spade.ACLMessage.ACLMessage()
                 msg.setPerformative("request")
                 msg.addReceiver(spade.AID.aid("tabuleiro@127.0.0.1",["xmpp://tabuleiro@127.0.0.1"]))
@@ -161,12 +142,11 @@ class Resolve_Labirinto(spade.Agent.Agent):
                 self.myAgent.send(msg)
                 print "Obj enviado!"
                 #manda proposta de caminho
-            elif content=="failure":
+            elif performative =="failure":
                 print "Failed to perform action"
             elif performative == "accept-proposal":
                 print "SUCESSO"
             else:
-                #toma decisao de caminhada pelo labirinto
                 print "else: ", content
 
     def _setup(self):
@@ -187,5 +167,4 @@ agente.start()
 
 time.sleep(60)
 
-#teste.stop()
 
