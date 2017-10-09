@@ -82,8 +82,17 @@ class no():
                 return caminho
                 
             l = fifo[i].getSucessores()
+            if direction[i]==0:
+                pai = 2
+            elif direction[i]==1:
+                pai = 3
+            elif direction[i]==2:
+                pai = 0
+            else:
+                pai = 1
+
             for j in range(4):
-                if l[j]!=None:
+                if l[j]!=None and j!=pai:
                     fifo.append(l[j])
                     numeros.append(i)
                     direction.append(j)
