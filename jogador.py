@@ -82,14 +82,17 @@ class no():
                 return caminho
                 
             l = fifo[i].getSucessores()
+            #print l
             if direction[i]==0:
                 pai = 2
             elif direction[i]==1:
                 pai = 3
             elif direction[i]==2:
                 pai = 0
-            else:
+            elif direction[i]==3:
                 pai = 1
+            else:
+                pai = 4
 
             for j in range(4):
                 if l[j]!=None and j!=pai:
@@ -97,6 +100,7 @@ class no():
                     numeros.append(i)
                     direction.append(j)
             i+=1
+
 
 class mapa():
     """docstring for mapa"""
@@ -181,7 +185,7 @@ class mapa():
         self.caminho = self.caminho + direcao + "|"
         print self.caminho
         print self.matriz[self.lugarx][self.lugary].getPai()
-        m.printMatriz()
+        #m.printMatriz()
         
         return self.matriz[self.lugarx][self.lugary]
 
@@ -220,6 +224,15 @@ no.setPai(4)
 
 class Resolve_Labirinto(spade.Agent.Agent):
     class solve(spade.Behaviour.Behaviour):
+        def onStart(self):
+            msg = spade.ACLMessage.ACLMessage()
+            msg.setPerformative("request")
+            msg.addReceiver(spade.AID.aid("tabuleiro@"+ip,["xmpp://tabuleiro@"+ip]))
+            msg.setContent('criar')
+            self.myAgent.send(msg)
+            print "Criar enviado!"
+
+
         def _process(self):
             global m
             global objetivo_encontrado
@@ -230,14 +243,7 @@ class Resolve_Labirinto(spade.Agent.Agent):
             print "mensagem recebida"
             print content
             print performative
-            if content == 'Start':
-                msg = spade.ACLMessage.ACLMessage()
-                msg.setPerformative("request")
-                msg.addReceiver(spade.AID.aid("tabuleiro@"+ip,["xmpp://tabuleiro@"+ip]))
-                msg.setContent('criar')
-                self.myAgent.send(msg)
-                print "Criar enviado!"
-            elif content == 'criar':
+            if content == 'criar':
                 print "criar recebido"
                 msg = spade.ACLMessage.ACLMessage()
                 msg.setPerformative("request")
@@ -376,6 +382,8 @@ class Resolve_Labirinto(spade.Agent.Agent):
         #template1.setPerformative("request")
         t1 = spade.Behaviour.MessageTemplate(template1)
         self.addBehaviour(self.solve(),t1)
+        
+        
 
 
 
