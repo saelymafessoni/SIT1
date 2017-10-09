@@ -257,7 +257,7 @@ class tabuleiro(spade.Agent.Agent):
     def _setup(self):
         global mapa
         global posObjetivo
-        tam = 5
+        tam = 15
         mapa, posObjetivo = self.criaMapa(tam)
 
         template = spade.Behaviour.ACLTemplate()

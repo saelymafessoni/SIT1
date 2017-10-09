@@ -3,7 +3,7 @@ import spade
 import time
 from random import randint
 
-tamanho = 20
+tamanho = 30
 debug = False
 
 
@@ -53,8 +53,8 @@ class no():
         i=0
         print "busca largura"
         while (1):
-            print fifo[i].getObjetivo()
-            #print len(fifo)
+            #print fifo[i].getObjetivo()
+            print len(fifo)
             if (fifo[i].getObjetivo() == True):
                 result = []
                 while direction[i]!=4:
@@ -233,7 +233,7 @@ class Resolve_Labirinto(spade.Agent.Agent):
             if content == 'Start':
                 msg = spade.ACLMessage.ACLMessage()
                 msg.setPerformative("request")
-                msg.addReceiver(spade.AID.aid("tabuleiro@150.162.217.95",["xmpp://tabuleiro@150.162.217.95"]))
+                msg.addReceiver(spade.AID.aid("tabuleiro@"+ip,["xmpp://tabuleiro@"+ip]))
                 msg.setContent('criar')
                 self.myAgent.send(msg)
                 print "Criar enviado!"
@@ -241,7 +241,7 @@ class Resolve_Labirinto(spade.Agent.Agent):
                 print "criar recebido"
                 msg = spade.ACLMessage.ACLMessage()
                 msg.setPerformative("request")
-                msg.addReceiver(spade.AID.aid("tabuleiro@150.162.217.95",["xmpp://tabuleiro@150.162.217.95"]))
+                msg.addReceiver(spade.AID.aid("tabuleiro@"+ip,["xmpp://tabuleiro@"+ip]))
                 msg.setContent('obj')
                 self.myAgent.send(msg)
                 print "Obj enviado!"
@@ -249,7 +249,7 @@ class Resolve_Labirinto(spade.Agent.Agent):
                 print "Objetivo nao encontrado, continuar procurando solucao"
                 msg = spade.ACLMessage.ACLMessage()
                 msg.setPerformative("request")
-                msg.addReceiver(spade.AID.aid("tabuleiro@150.162.217.95",["xmpp://tabuleiro@150.162.217.95"]))
+                msg.addReceiver(spade.AID.aid("tabuleiro@"+ip,["xmpp://tabuleiro@"+ip]))
                 msg.setContent('sucessores')
                 if (debug==True):
                     time.sleep(3)
@@ -270,7 +270,7 @@ class Resolve_Labirinto(spade.Agent.Agent):
                 print "Objetivo encontrado, continuar mapeando"
                 msg = spade.ACLMessage.ACLMessage()
                 msg.setPerformative("request")
-                msg.addReceiver(spade.AID.aid("tabuleiro@150.162.217.95",["xmpp://tabuleiro@150.162.217.95"]))
+                msg.addReceiver(spade.AID.aid("tabuleiro@"+ip,["xmpp://tabuleiro@"+ip]))
                 msg.setContent('sucessores')
                 if (debug==True):
                     time.sleep(3)
@@ -327,7 +327,7 @@ class Resolve_Labirinto(spade.Agent.Agent):
                 print prox
                 msg = spade.ACLMessage.ACLMessage()
                 msg.setPerformative("subscribe")
-                msg.addReceiver(spade.AID.aid("tabuleiro@150.162.217.95",["xmpp://tabuleiro@150.162.217.95"]))    
+                msg.addReceiver(spade.AID.aid("tabuleiro@"+ip,["xmpp://tabuleiro@"+ip]))    
                 if prox == 0:
                     msg.setContent("cima")
                 elif prox == 1:
@@ -342,7 +342,7 @@ class Resolve_Labirinto(spade.Agent.Agent):
                     print "batata"                    
                     msg = spade.ACLMessage.ACLMessage()
                     msg.setPerformative("propose")
-                    msg.addReceiver(spade.AID.aid("tabuleiro@150.162.217.95",["xmpp://tabuleiro@150.162.217.95"]))
+                    msg.addReceiver(spade.AID.aid("tabuleiro@"+ip,["xmpp://tabuleiro@"+ip]))
                     msg.setContent(caminho)
                     self.myAgent.send(msg)
 
@@ -355,7 +355,7 @@ class Resolve_Labirinto(spade.Agent.Agent):
                 m.andar(content)
                 msg = spade.ACLMessage.ACLMessage()
                 msg.setPerformative("request")
-                msg.addReceiver(spade.AID.aid("tabuleiro@150.162.217.95",["xmpp://tabuleiro@150.162.217.95"]))
+                msg.addReceiver(spade.AID.aid("tabuleiro@"+ip,["xmpp://tabuleiro@"+ip]))
                 msg.setContent('obj')
                 self.myAgent.send(msg)
                 print "Obj enviado!"
@@ -380,7 +380,7 @@ class Resolve_Labirinto(spade.Agent.Agent):
 
 
 
-ip = '150.162.217.95'
+ip = '127.0.0.1'
 agente = Resolve_Labirinto("brenosaely@"+ip, "secret")
 
 agente.start()
